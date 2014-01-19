@@ -8,4 +8,4 @@ HackShield Knight Online Server
   - YNG (RBACS)/ Source Code [ Skype : volkan_yng@hotmail.com]
 
 Not: Sunucu Dosyalari "AIServer , GameServer" AKUMA Ayittir.. 
-Lisanslari Bizzat Benim Tarafimdan Kirilmýþtýr.
+Lisanslari Bizzat Benim Tarafimdan Kirilmistir.
