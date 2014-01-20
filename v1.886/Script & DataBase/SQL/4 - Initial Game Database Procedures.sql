@@ -726,12 +726,28 @@ END
 GO
 
 CREATE PROCEDURE MAIL_BOX_GET_ITEM
-@strRecipientID char(21),
+@strRecipientID char(20),
 @nLetterID int
 AS
 
-SELECT nItemID, sCount, sDurability, nCoins, nSerialNum FROM MAIL_BOX WHERE nLetterID = @nLetterID AND strRecipientID = @strRecipientID AND bStatus = 1
-UPDATE MAIL_BOX SET bStatus = 2 WHERE nLetterID = @nLetterID AND strRecipientID = @strRecipientID
+SET NOCOUNT ON
+
+DECLARE @Count int
+SELECT @Count = COUNT(strRecipientID) FROM MAIL_BOX WHERE nLetterID = @nLetterID AND bStatus = 1 AND strRecipientID = @strRecipientID
+IF @Count = 0
+	RETURN 0
+	
+BEGIN TRAN
+	UPDATE MAIL_BOX SET bStatus = 2 WHERE nLetterID = @nLetterID AND bStatus = 1 AND strRecipientID = @strRecipientID
+	SELECT nItemID, sCount, sDurability, nCoins, nSerialNum FROM MAIL_BOX WHERE nLetterID = @nLetterID AND bStatus = 2 AND strRecipientID = @strRecipientID
+	IF @@ERROR <> 0
+	BEGIN	
+		ROLLBACK TRAN 
+		RETURN 0
+	END
+COMMIT TRAN
+
+RETURN 1
 GO
 
 CREATE PROCEDURE INSERT_USER_DAILY_OP
