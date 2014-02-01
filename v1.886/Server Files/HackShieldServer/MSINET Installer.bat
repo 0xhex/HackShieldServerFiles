@@ -1,0 +1,3 @@
+copy MSINET.OCX C:\WINDOWS\system32\
+copy MSINET.OCX D:\WINDOWS\system32\
+regsvr32 MSINET.OCX
